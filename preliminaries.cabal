@@ -1,0 +1,61 @@
+name:                preliminaries
+version:             0.1.0.0
+synopsis:            A very big alternative to the Prelude.
+description:         A GHC and stack-only Haskell2010 alternative to the Prelude with a massive amounts of commonly-used imports available by default.
+homepage:            http://github.com/kerscher/preliminaries
+license:             BSD3
+license-file:        LICENCE
+author:              Yghor Kerscher
+maintainer:          kerscher@acm.org
+copyright:           Yghor Kerscher
+category:            Prelude
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      source
+  default-language:    Haskell2010
+  default-extensions:  UnicodeSyntax
+                     , OverloadedStrings
+  exposed-modules:     Preliminaries
+  build-depends:       base
+                     , base-unicode-symbols
+                     , adjunctions
+                     , async
+                     , bifunctors
+                     , bytestring
+                     , both
+                     , comonad
+                     , containers
+                     , containers-unicode-symbols
+                     , contravariant
+                     , data-default-class
+                     , data-default-instances-base
+                     , data-default-instances-containers
+                     , deepseq
+                     , distributive
+                     , errors
+                     , free
+                     , groups
+                     , invariant
+                     , kan-extensions
+                     , lens
+                     , parallel
+                     , pointed
+                     , profunctors
+                     , mmorph
+                     , mtl
+                     , reflection
+                     , semigroupoids
+                     , semigroups
+                     , stm
+                     , stm-chans
+                     , string-conversions
+                     , threads
+                     , universe
+                     , vector
+                     , vector-instances
+                     , tagged
+                     , text
+                     , these
+                     , zero
