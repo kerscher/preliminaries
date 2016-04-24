@@ -17,6 +17,8 @@ library
   default-language:    Haskell2010
   default-extensions:  UnicodeSyntax
                      , OverloadedStrings
+                     , OverloadedLists
+                     , NoImplicitPrelude
   exposed-modules:     Preliminaries
   build-depends:       base
                      , base-unicode-symbols
