@@ -1,10 +1,6 @@
 -- |
 -- This module reexports a very large amount of commonly used types and functions,
 -- and is meant to be used instead of Prelude.
--- You should enable OverloadedStrings and OverloadedLists.
---
--- For details check out the source.
-
 module Preliminaries
 (
   module Exports
@@ -32,6 +28,10 @@ module Preliminaries
 , maybeToEither
 , liftM'
 , liftM2'
+, FoldableFunctor
+, foldF
+, gunfoldF
+, unfoldF
 )
 where
 
@@ -52,7 +52,7 @@ import Data.Functor.Kan.Rift             as Exports
 import Data.Functor.Rep                  as Exports hiding (index)
 import Data.Bifunctor                    as Exports
 import Data.Profunctor                   as Exports hiding (WrappedArrow, WrapArrow, unwrapArrow)
-
+ 
 -- ** Applicatives
 import Control.Applicative               as Exports
 import Control.Applicative.Free          as Exports
@@ -63,7 +63,7 @@ import Control.Alternative.Free          as FAlt
 
 -- ** Monads
 import Control.Monad                     as Exports
-import Control.Monad.Free                as Exports hiding (Pure)
+import Control.Monad.Free                as Exports hiding (Pure, unfold)
 import Control.Monad.Free.Class          as Exports
 import Control.Monad.Unicode             as Exports
 import Control.Monad.Cont                as Exports
@@ -94,7 +94,7 @@ import Control.Arrow                     as Exports hiding (first, second)
 import Control.Arrow.Unicode             as Exports
 import Control.Category                  as Exports hiding ((.))
 import Data.Function                     as Exports hiding (id)
-import Data.Isomorphism                  as Exports hiding (Iso)
+import Data.Isomorphism                  as Exports hiding (Iso, embed, project)
 import Data.Isomorphism                  as Isomorphism
 
 
@@ -177,9 +177,11 @@ import Data.Proxy                        as Exports
 -- ** Manipulate
 
 -- *** Folds
-import Data.Foldable                     as Exports
+import Data.Foldable                     as Exports hiding (toList)
 import Data.Foldable.Unicode             as Exports
 import Data.Bifoldable                   as Exports
+import Data.Functor.Foldable             as Exports hiding (Foldable, gunfold, fold)
+import Data.Functor.Foldable             as RecursionSchemes
 
 -- *** Traversals
 import Data.Bitraversable                as Exports 
@@ -187,7 +189,12 @@ import Data.Distributive                 as Exports
 import Data.Traversable                  as Exports
 
 -- *** Comonad coalgebra yadda-yadda-yadda
-import Control.Lens                      as Exports hiding (universe, both, index, (??))
+import Control.Lens                      as Exports hiding ( universe
+                                                           , both
+                                                           , index
+                                                           , (??)
+                                                           , para
+                                                           )
 
 
 -- ** Numbers
@@ -206,12 +213,15 @@ import Data.Word                         as Exports
 import Numeric                           as Exports
 
 -- ** Containers
+import GHC.Exts                          as Exports (IsList, fromList, fromListN, toList)
 import Data.IntMap                       as Exports (IntMap)
 import Data.IntSet                       as Exports (IntSet)
 import Data.Default.Instances.Containers as Exports
 import Data.Ix                           as Exports
 import Data.Map                          as Exports (Map)
+import Data.HashMap.Lazy                 as Exports (HashMap)
 import Data.Set                          as Exports (Set)
+import Data.HashSet                      as Exports (HashSet)
 import Data.Sequence                     as Exports (Seq)
 import Data.Tuple                        as Exports hiding (swap)
 import Data.Vector                       as Exports (Vector)
@@ -225,6 +235,8 @@ import System.Mem.StableName             as Exports
 import System.Mem.Weak                   as Exports
 
 -- ** Text
+import Data.Char                         as Exports hiding (toUpper, toLower, toTitle)
+import Data.String                       as Exports (String, IsString, fromString)
 import Data.Text                         as Exports (Text, toCaseFold, toLower, toUpper, toTitle, transpose, lines, words, unlines, unwords, isPrefixOf, isSuffixOf, isInfixOf, stripPrefix, stripSuffix, commonPrefixes)
 import qualified Data.Text               as Text
 import Data.Text.IO                      as Exports
@@ -265,7 +277,6 @@ infixl 1 ▶
 (▶) ∷ α → (α → β) → β
 x ▶ f = f x
 
-
 identity ∷ α → α
 identity   x = x
 
@@ -296,7 +307,7 @@ unlessM ∷ Monad m ⇒ m Bool → m () → m ()
 unlessM p m = p >>= flip unless m
 
 ifM ∷ Monad m ⇒ m Bool → m α → m α → m α
-ifM p x y = p >>= \b → if b then x else y
+ifM p x y = p >>= \b → bool y x b
 
 guardM ∷ MonadPlus m ⇒ m Bool → m ()
 guardM f = guard =<< f
@@ -317,7 +328,6 @@ maybeToLeft r = maybe (Right r) Left
 maybeToEither ∷ Monoid β => (α → β) → Maybe α → β
 maybeToEither = maybe mempty
 
-
 liftM' ∷ Monad m ⇒ (α → β) → m α → m β
 liftM' = (<$!>)
 {-# INLINE liftM' #-}
@@ -329,3 +339,18 @@ liftM2' f a b = do
   let z = f x y
   z `Prelude.seq` return z
 {-# INLINE liftM2' #-}
+
+type FoldableFunctor = RecursionSchemes.Foldable
+
+foldF ∷ (FoldableFunctor τ) ⇒ (Base τ α → α) → τ → α
+foldF = RecursionSchemes.fold
+
+unfoldF ∷ (Unfoldable τ) ⇒ (α → Base τ α) → α → τ
+unfoldF = RecursionSchemes.unfold
+
+gunfoldF ∷ (Unfoldable τ, Monad m)
+         ⇒ (∀ β. m (Base τ β) → Base τ (m β))
+         → (α → Base τ (m α))
+         → α
+         → τ
+gunfoldF = RecursionSchemes.gunfold
