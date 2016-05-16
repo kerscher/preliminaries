@@ -16,9 +16,39 @@ library
   hs-source-dirs:      source
   default-language:    Haskell2010
   default-extensions:  UnicodeSyntax
+                     , NoImplicitPrelude
                      , OverloadedStrings
                      , OverloadedLists
-                     , NoImplicitPrelude
+                     , LambdaCase
+                     , GADTSyntax
+                     , RankNTypes
+                     , ScopedTypeVariables
+                     , DeriveGeneric
+                     , TupleSections
+                     , BangPatterns
+                     , MultiParamTypeClasses
+                     , FlexibleInstances
+                     , FlexibleContexts
+                     , MultiWayIf
+                     , TypeFamilies
+                     , TypeOperators
+                     , FunctionalDependencies
+                     , DisambiguateRecordFields
+                     , MonadComprehensions
+                     , BinaryLiterals
+                     , RecursiveDo
+                     , ParallelListComp
+                     , PartialTypeSignatures
+                     , RecordWildCards
+                     , PatternSynonyms
+                     , EmptyCase
+                     , InstanceSigs
+                     , KindSignatures
+                     , RebindableSyntax
+                     , DeriveFunctor
+                     , DeriveFoldable
+                     , DeriveTraversable
+                     , ConstraintKinds
   exposed-modules:     Preliminaries
   build-depends:       base
                      , base-unicode-symbols
@@ -48,6 +78,7 @@ library
                      , mmorph
                      , mtl
                      , reflection
+                     , recursion-schemes
                      , semigroupoids
                      , semigroups
                      , stm
@@ -61,4 +92,5 @@ library
                      , text
                      , these
                      , time
+                     , unordered-containers
                      , zero
