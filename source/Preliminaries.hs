@@ -205,7 +205,14 @@ import Data.Ratio                        as Exports
 import Data.Word                         as Exports
 import Numeric                           as Exports
 
+-- ** Time
+import Data.Time.Calendar                as Exports
+import Data.Time.Clock                   as Exports
+import Data.Time.LocalTime               as Exports
+import Data.Time.Format                  as Exports
+
 -- ** Containers
+import GHC.Exts                          as Exports (IsList, fromList)
 import Data.IntMap                       as Exports (IntMap)
 import Data.IntSet                       as Exports (IntSet)
 import Data.Default.Instances.Containers as Exports
@@ -214,7 +221,7 @@ import Data.Map                          as Exports (Map)
 import Data.Set                          as Exports (Set)
 import Data.Sequence                     as Exports (Seq)
 import Data.Tuple                        as Exports hiding (swap)
-import Data.Vector                       as Exports (Vector)
+import Data.Vector                       as Exports (Vector, take, dropWhile)
 import qualified Data.Vector             as Vector
 
 -- ** Memory
@@ -248,13 +255,13 @@ import Control.Error.Util                as Exports hiding (isLeft, isRight, boo
 
 type Isomorphism = Isomorphism.Iso
 
-reverseText = Text.reverse
-replaceText = Text.replace
-justifyTextLeft = Text.justifyLeft
+reverseText      = Text.reverse
+replaceText      = Text.replace
+justifyTextLeft  = Text.justifyLeft
 justifyTextRight = Text.justifyRight
-centerText = Text.center
-intersperseText = Text.intersperse
-intercalateText = Text.intercalate
+centerText       = Text.center
+intersperseText  = Text.intersperse
+intercalateText  = Text.intercalate
 
 -- | 'swap' for pairs, as the name is taken by 'concatenative'.
 swapTuple ∷ (α,β) → (β,α)
@@ -270,12 +277,12 @@ identity ∷ α → α
 identity   x = x
 
 -- | A safe 'head' for Vectors.
-headMay ∷ Vector α -> Maybe α
+headMay ∷ Vector α → Maybe α
 headMay xs = xs Vector.!? 1
 
 -- | A safe 'last' for Vectors.
 lastMay ∷ Vector α → Maybe α
-lastMay xs | length xs > 1 = Just $ Vector.last xs
+lastMay xs | length xs ≥ 1 = Just $ Vector.last xs
            | otherwise     = Nothing
 
 -- -- | Decompose a Vector into its head and tail. If the Vector is empty,
@@ -287,7 +294,7 @@ lastMay xs | length xs > 1 = Just $ Vector.last xs
 
 -- | Takes a function and a count and applies it n times.
 applyN ∷ Int → (α → α) → α → α
-applyN n f = foldr (.) identity (Vector.replicate n f)
+applyN n f = foldr (∘) identity (Vector.replicate n f)
 
 whenM ∷ Monad m ⇒ m Bool → m () → m ()
 whenM p m = p >>= flip when m
