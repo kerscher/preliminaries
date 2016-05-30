@@ -230,7 +230,7 @@ import Data.Set                          as Exports (Set)
 import Data.HashSet                      as Exports (HashSet)
 import Data.Sequence                     as Exports (Seq)
 import Data.Tuple                        as Exports hiding (swap)
-import Data.Vector                       as Exports (Vector, take, dropWhile)
+import Data.Vector                       as Exports (Vector, take, dropWhile, drop, splitAt)
 import qualified Data.Vector             as Vector
 
 -- ** Memory
@@ -245,6 +245,7 @@ import Data.Char                         as Exports hiding (toUpper, toLower, to
 import Data.String                       as Exports (String, IsString, fromString)
 import Data.Text                         as Exports (Text, toCaseFold, toLower, toUpper, toTitle, transpose, lines, words, unlines, unwords, isPrefixOf, isSuffixOf, isInfixOf, stripPrefix, stripSuffix, commonPrefixes)
 import qualified Data.Text               as Text
+import Text.Show                         as Exports
 import Data.Text.IO                      as Exports
 import Data.String.Conversions           as Exports hiding (ST, SBS, LBS, LT)
 
