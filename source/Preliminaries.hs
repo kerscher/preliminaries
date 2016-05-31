@@ -289,7 +289,7 @@ identity   x = x
 
 -- | A safe 'head' for Vectors.
 headMay ∷ Vector α → Maybe α
-headMay xs = xs Vector.!? 1
+headMay xs = xs Vector.!? 0
 
 -- | A safe 'last' for Vectors.
 lastMay ∷ Vector α → Maybe α
