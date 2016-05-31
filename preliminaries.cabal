@@ -66,6 +66,7 @@ library
                      , data-default-instances-containers
                      , deepseq
                      , distributive
+                     , either
                      , errors
                      , free
                      , groups

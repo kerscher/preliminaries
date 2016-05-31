@@ -152,6 +152,7 @@ import Data.Zero                         as Exports
 import Data.Maybe                        as Exports
 import Data.Either                       as Exports
 import Data.EitherR                      as Exports
+import Data.Either.Combinators           as Exports hiding (isLeft, isRight, leftToMaybe, rightToMaybe)
 import Data.These                        as Exports
 import Data.Both                         as Exports
 
