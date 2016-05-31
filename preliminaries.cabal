@@ -92,6 +92,7 @@ library
                      , tagged
                      , text
                      , these
+                     , transformers-base
                      , time
                      , unordered-containers
                      , zero

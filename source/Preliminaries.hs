@@ -63,6 +63,7 @@ import Control.Alternative.Free          as FAlt
 
 -- ** Monads
 import Control.Monad                     as Exports
+import Control.Monad.Base                as Exports
 import Control.Monad.Free                as Exports hiding (Pure, unfold)
 import Control.Monad.Free.Class          as Exports
 import Control.Monad.Unicode             as Exports
