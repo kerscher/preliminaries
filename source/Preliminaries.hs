@@ -246,6 +246,8 @@ import System.Mem.Weak                   as Exports
 import Data.Char                         as Exports hiding (toUpper, toLower, toTitle)
 import Data.String                       as Exports (String, IsString, fromString)
 import Data.Text                         as Exports (Text, toCaseFold, toLower, toUpper, toTitle, transpose, lines, words, unlines, unwords, isPrefixOf, isSuffixOf, isInfixOf, stripPrefix, stripSuffix, commonPrefixes)
+import Data.Text.Encoding                as Exports
+import Data.ByteString                   as Exports (ByteString)
 import qualified Data.Text               as Text
 import Text.Show                         as Exports
 import Data.Text.IO                      as Exports
