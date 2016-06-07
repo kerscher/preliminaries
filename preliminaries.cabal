@@ -50,6 +50,15 @@ library
                      , DeriveTraversable
                      , ConstraintKinds
   exposed-modules:     Preliminaries
+  ghc-options:         -Wall
+                       -O2
+                       -funfolding-use-threshold=16
+                       -threaded
+                       -optc-O3
+                       -optc-ffast-math
+                       -rtsopts
+                       -with-rtsopts=-N
+                       -with-rtsopts=-T
   build-depends:       base
                      , base-unicode-symbols
                      , adjunctions
