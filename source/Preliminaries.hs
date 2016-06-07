@@ -32,6 +32,11 @@ module Preliminaries
 , foldF
 , gunfoldF
 , unfoldF
+, encodeWord8
+, decodeWord8
+, packByteString
+, unpackByteString
+, fromUtf8String
 )
 where
 
@@ -232,7 +237,7 @@ import Data.Set                          as Exports (Set)
 import Data.HashSet                      as Exports (HashSet)
 import Data.Sequence                     as Exports (Seq)
 import Data.Tuple                        as Exports hiding (swap)
-import Data.Vector                       as Exports (Vector, take, dropWhile, drop, splitAt)
+import Data.Vector                       as Exports (Vector, take, dropWhile, drop, splitAt, filter)
 import qualified Data.Vector             as Vector
 
 -- ** Memory
@@ -245,9 +250,12 @@ import System.Mem.Weak                   as Exports
 -- ** Text
 import Data.Char                         as Exports hiding (toUpper, toLower, toTitle)
 import Data.String                       as Exports (String, IsString, fromString)
-import Data.Text                         as Exports (Text, toCaseFold, toLower, toUpper, toTitle, transpose, lines, words, unlines, unwords, isPrefixOf, isSuffixOf, isInfixOf, stripPrefix, stripSuffix, commonPrefixes)
+import Data.Text                         as Exports (Text, toCaseFold, toLower, toUpper, toTitle, transpose, lines, words, unlines, unwords, isPrefixOf, isSuffixOf, isInfixOf, stripPrefix, stripSuffix, commonPrefixes, pack, unpack)
 import Data.Text.Encoding                as Exports
 import Data.ByteString                   as Exports (ByteString)
+import Data.ByteString                   as BS (pack, unpack)
+import Codec.Binary.UTF8.String          as Exports (decodeString, encodeString)
+import Codec.Binary.UTF8.String          as UTF8
 import qualified Data.Text               as Text
 import Text.Show                         as Exports
 import Data.Text.IO                      as Exports
@@ -268,6 +276,14 @@ import Control.Error.Util                as Exports hiding (isLeft, isRight, boo
 
 
 -- * Helper functions
+
+fromUtf8String = packByteString . encodeWord8 . decodeString
+
+packByteString   = BS.pack
+unpackByteString = BS.unpack
+
+encodeWord8 = UTF8.encode
+decodeWord8 = UTF8.decode
 
 type Isomorphism = Isomorphism.Iso
 

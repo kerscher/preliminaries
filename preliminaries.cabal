@@ -95,4 +95,5 @@ library
                      , transformers-base
                      , time
                      , unordered-containers
+                     , utf8-string
                      , zero
