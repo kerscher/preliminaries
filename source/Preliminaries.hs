@@ -37,6 +37,7 @@ module Preliminaries
 , packByteString
 , unpackByteString
 , fromUtf8String
+, Isomorphism
 )
 where
 
@@ -146,13 +147,14 @@ import Data.Eq.Unicode                   as Exports
 import Data.Bool                         as Exports
 import Data.Bool.Unicode                 as Exports
 
+import Data.Pointed                      as Exports
+import Data.Copointed                    as Exports
 import Data.Monoid                       as Exports
 import Data.Monoid.Unicode               as Exports
 import Data.Group                        as Exports
 import Data.Groupoid                     as Exports
 import Data.Semigroupoid                 as Exports
 -- import Data.Semigroup        as Exports
-import Data.Pointed                      as Exports
 import Data.Zero                         as Exports
 
 import Data.Maybe                        as Exports
@@ -237,7 +239,8 @@ import Data.Set                          as Exports (Set)
 import Data.HashSet                      as Exports (HashSet)
 import Data.Sequence                     as Exports (Seq)
 import Data.Tuple                        as Exports hiding (swap)
-import Data.Vector                       as Exports (Vector, take, dropWhile, drop, splitAt, filter)
+import Data.Vector                       as Exports (Vector, take, dropWhile, drop, splitAt, filter, zipWith, unzip, partition)
+import Data.Vector.Instances             as Exports
 import qualified Data.Vector             as Vector
 
 -- ** Memory
@@ -277,16 +280,30 @@ import Control.Error.Util                as Exports hiding (isLeft, isRight, boo
 
 -- * Helper functions
 
+fromUtf8String ∷ String → ByteString
 fromUtf8String = packByteString . encodeWord8 . decodeString
 
+packByteString ∷ [Word8] → ByteString
 packByteString   = BS.pack
+
+unpackByteString ∷ ByteString → [Word8]
 unpackByteString = BS.unpack
 
+encodeWord8 ∷ String → [Word8]
 encodeWord8 = UTF8.encode
+
+decodeWord8 ∷ [Word8] → String
 decodeWord8 = UTF8.decode
 
 type Isomorphism = Isomorphism.Iso
 
+reverseText      ∷ Text → Text
+replaceText      ∷ Text → Text   → Text → Text
+justifyTextLeft  ∷ Int  → Char   → Text → Text
+justifyTextRight ∷ Int  → Char   → Text → Text
+centerText       ∷ Int  → Char   → Text → Text
+intersperseText  ∷ Char → Text   → Text
+intercalateText  ∷ Text → [Text] → Text
 reverseText      = Text.reverse
 replaceText      = Text.replace
 justifyTextLeft  = Text.justifyLeft
