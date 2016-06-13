@@ -317,7 +317,6 @@ swapTuple ∷ (α,β) → (β,α)
 swapTuple   (x,y) = (y,x)
 
 infixl 1 ▶
--- | Easier to remember alias for '&'.
 (▶) ∷ α → (α → β) → β
 x ▶ f = f x
 
@@ -333,12 +332,11 @@ lastMay ∷ Vector α → Maybe α
 lastMay xs | length xs ≥ 1 = Just $ Vector.last xs
            | otherwise     = Nothing
 
--- -- | Decompose a Vector into its head and tail. If the Vector is empty,
--- -- returns 'Nothing'. If non-empty, returns @'Just' (x, xs)@,
--- -- where @x@ is the head of the Vector and @xs@ its tail.
--- uncons ∷ Vector α -> Maybe (α, Vector α)
--- uncons []     = Nothing
--- uncons (x:xs) = Just (x, xs)
+-- | Decompose a Vector into its head and tail. If the Vector is empty,
+-- returns 'Nothing'. If non-empty, returns @'Just' (x, xs)@,
+-- where @x@ is the head of the Vector and @xs@ its tail.
+uncons ∷ Vector α -> Maybe (α, Vector α)
+uncons xs = bool Nothing (Just (Vector.head xs, Vector.tail xs)) ((length xs) > 0)
 
 -- | Takes a function and a count and applies it n times.
 applyN ∷ Int → (α → α) → α → α
