@@ -87,6 +87,7 @@ import Control.Monad.Morph               as Exports hiding (embed)
 import Control.Monad.Codensity           as Exports
 import Control.Monad.Fix                 as Exports
 import Control.Monad.ST                  as Exports
+import Control.Monad.Trans.Control       as Exports hiding (embed)
 
 -- ** Comonads
 import Control.Comonad                   as Exports hiding (Functor, (<$>), ($>))
@@ -130,6 +131,12 @@ import Control.Monad.STM                 as Exports
 import Control.Parallel                  as Exports
 import Control.Parallel.Strategies       as Exports
 
+-- * Error handling
+import Control.Error.Util                as Exports hiding (isLeft, isRight, bool, tryIO)
+import Control.Monad.Catch               as Exports
+import Control.Monad.Catch.Pure          as Exports
+import Control.Exception.Enclosed        as Exports
+import System.IO.Error                   as Exports hiding (catchIOError, tryIO)
 
 -- * Data structures
 
@@ -239,7 +246,7 @@ import Data.Set                          as Exports (Set)
 import Data.HashSet                      as Exports (HashSet)
 import Data.Sequence                     as Exports (Seq)
 import Data.Tuple                        as Exports hiding (swap)
-import Data.Vector                       as Exports (Vector, take, dropWhile, drop, splitAt, filter, zipWith, unzip, partition)
+import Data.Vector                       as Exports (Vector, take, dropWhile, drop, splitAt, filter, zipWith, unzip, partition, (!))
 import Data.Vector.Instances             as Exports
 import qualified Data.Vector             as Vector
 
@@ -270,12 +277,8 @@ import System.CPUTime                    as Exports
 import System.Environment                as Exports
 import System.Exit                       as Exports
 import System.IO                         as Exports hiding (hGetContents, hGetLine, hPutStr, hPutStrLn, appendFile, getContents, getLine, interact, putStr, putStrLn, readFile, writeFile)
-import System.IO.Error                   as Exports
 import System.Info                       as Exports
 import System.Timeout                    as Exports
-
--- * Error handling
-import Control.Error.Util                as Exports hiding (isLeft, isRight, bool)
 
 
 -- * Helper functions
@@ -335,7 +338,7 @@ lastMay xs | length xs ≥ 1 = Just $ Vector.last xs
 -- | Decompose a Vector into its head and tail. If the Vector is empty,
 -- returns 'Nothing'. If non-empty, returns @'Just' (x, xs)@,
 -- where @x@ is the head of the Vector and @xs@ its tail.
-uncons ∷ Vector α -> Maybe (α, Vector α)
+uncons ∷ Vector α → Maybe (α, Vector α)
 uncons xs = bool Nothing (Just (Vector.head xs, Vector.tail xs)) ((length xs) > 0)
 
 -- | Takes a function and a count and applies it n times.
@@ -353,7 +356,6 @@ ifM p x y = p >>= \b → bool y x b
 
 guardM ∷ MonadPlus m ⇒ m Bool → m ()
 guardM f = guard =<< f
-
 
 leftToMaybe ∷ Either l r → Maybe l
 leftToMaybe = either Just (const Nothing)
