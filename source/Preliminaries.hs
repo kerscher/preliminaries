@@ -103,6 +103,9 @@ module Preliminaries
 , module Control.Concurrent.STM.TMChan
 , module Control.Concurrent.STM.TMQueue
 , module Control.Monad.STM
+  -- ** Parallelism
+, module Control.Parallel
+, module Control.Parallel.Strategies
   -- * Data structures
   -- ** Basics
 , module Data.Default.Class
@@ -171,6 +174,7 @@ module Preliminaries
 , module Data.Vector.Instances
 , headMay
 , lastMay
+, unconsVector
   -- ** Text
 , module Data.Char
 , module Data.String
@@ -446,10 +450,20 @@ intercalateText  = Text.intercalate
 swapTuple ∷ (α,β) → (β,α)
 swapTuple   (x,y) = (y,x)
 
+-- | Reverse function application.
+-- 
+-- @
+-- (▶) ≡ (&)
+-- @
 infixl 1 ▶
 (▶) ∷ α → (α → β) → β
 x ▶ f = f x
 
+-- | The trivial identity function.
+--
+-- @
+-- identity ≡ id
+-- @
 identity ∷ α → α
 identity   x = x
 
@@ -463,10 +477,10 @@ lastMay xs | length xs ≥ 1 = Just $ Vector.last xs
            | otherwise     = Nothing
 
 -- | Decompose a Vector into its head and tail. If the Vector is empty,
--- returns 'Nothing'. If non-empty, returns @'Just' (x, xs)@,
+-- returns 'Nothing'. If non-empty, returns @'Just' (x,xs)@,
 -- where @x@ is the head of the Vector and @xs@ its tail.
-uncons ∷ Vector α → Maybe (α, Vector α)
-uncons xs = bool Nothing (Just (Vector.head xs, Vector.tail xs)) ((length xs) > 0)
+unconsVector ∷ Vector α → Maybe (α, Vector α)
+unconsVector xs = bool Nothing (Just (Vector.head xs, Vector.tail xs)) ((length xs) > 0)
 
 -- | Takes a function and a count and applies it n times.
 applyN ∷ Int → (α → α) → α → α
