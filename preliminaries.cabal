@@ -1,7 +1,7 @@
 name:                preliminaries
 version:             0.1.0.0
-synopsis:            A very big alternative to the Prelude.
-description:         A GHC and stack-only Haskell2010 alternative to the Prelude with a massive amounts of commonly-used imports available by default.
+synopsis:            A ridiculously big alternative to the Prelude.
+description:         A GHC-only alternative to the Prelude with massive amounts of imports available by default. It's meant to 
 homepage:            http://github.com/kerscher/preliminaries
 license:             BSD3
 license-file:        LICENCE
