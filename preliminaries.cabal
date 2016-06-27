@@ -1,7 +1,7 @@
 name:                preliminaries
 version:             0.1.0.0
 synopsis:            A ridiculously big alternative to the Prelude.
-description:         A GHC-only alternative to the Prelude with massive amounts of imports available by default. It's meant to 
+description:         A GHC-only alternative to the Prelude with massive amounts of imports available by default.
 homepage:            http://github.com/kerscher/preliminaries
 license:             BSD3
 license-file:        LICENCE
@@ -51,11 +51,10 @@ library
                      , ConstraintKinds
   exposed-modules:     Preliminaries
   ghc-options:         -Wall
+                       -fno-warn-unused-imports
+                       -fno-warn-dodgy-exports
+                       -Werror
                        -O2
-                       -funfolding-use-threshold=16
-                       -threaded
-                       -optc-O3
-                       -optc-ffast-math
                        -rtsopts
                        -with-rtsopts=-N
                        -with-rtsopts=-T

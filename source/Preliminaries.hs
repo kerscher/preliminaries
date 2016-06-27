@@ -1,8 +1,42 @@
+{-|
+Module      : Preliminaries
+Copyright   : © Yghor Kerscher, 2016
+Licence     : BSD-3
+Maintainer  : kerscher@acm.org
+Stability   : experimental
+
+The Haskell Report specifies the <https://www.haskell.org/onlinereport/standard-prelude.html Prelude> with a well-thought but minimal amount of definitions that are always available in scope for application writers. Due to its simplicity and frugality, multiple alternatives and support libraries were devised to improve upon it, including:
+
+* <https://hackage.haskell.org/package/base-prelude-1.0.1.1 base-prelude>
+* <https://hackage.haskell.org/package/basic-prelude-0.5.2 basic-prelude>
+* <https://hackage.haskell.org/package/classy-prelude-0.12.8 classy-prelude>
+* <https://hackage.haskell.org/package/prelude-extras-0.4.0.3 prelude-extras>
+* <https://hackage.haskell.org/package/protolude-0.1.5 protolude>
+
+@Preliminaries@ is one of such alternatives, with the following goals in mind:
+
+* Documentation should be first-class.
+* Imports that you use most of the time should be available by default.
+* Useful abstractions are included, even if obscure.
+
+To use it, put the following on your @.cabal@ file, ignoring the “…” for ommited parts:
+
+@
+…
+build-depends: preliminaries
+@
+
+You might also want to look at this project’s Cabal file to check on useful GHC extensions to enable alongside this change.
+
+In case something does not build or you find other unpleasant aspects of the library, please contact the maintainer.
+
+-}
 module Preliminaries
 ( -- * Structural abstractions
   -- ** Functors
-  module Data.Align
-, module Data.Functor
+  -- $functors
+  module Data.Functor
+, module Data.Align
 , module Data.Functor.Identity
 , module Data.Functor.Invariant
 , module Data.Functor.Contravariant
@@ -16,13 +50,14 @@ module Preliminaries
 , module Data.Bifunctor
 , module Data.Profunctor
   -- ** Applicatives
+  -- $applicatives
 , module Control.Applicative
 , module Control.Applicative.Free
 , module Control.Applicative.Unicode
 , module Data.Biapplicative
 , module Control.Alternative.Free
-, module Control.Alternative.Free
   -- ** Monads
+  -- $monads
 , module Control.Monad
 , module Control.Monad.Base
 , module Control.Monad.Free
@@ -43,7 +78,6 @@ module Preliminaries
 , module Control.Monad.Fix
 , module Control.Monad.ST
 , module Control.Monad.Trans.Control
-, applyN
 , whenM
 , unlessM
 , ifM
@@ -51,12 +85,14 @@ module Preliminaries
 , liftM'
 , liftM2'
   -- ** Comonads
+  -- $comonads
 , module Control.Comonad
 , module Control.Comonad.Cofree
 , module Control.Comonad.Cofree.Class
 , module Control.Comonad.Store
 , module Control.Comonad.Density
   -- ** Categories
+  -- $categories
 , module Control.Arrow
 , module Control.Arrow.Unicode
 , module Control.Category
@@ -65,6 +101,7 @@ module Preliminaries
 , Isomorphism
 , identity
 , (▶)
+, applyN
   -- ** Folds
 , module Data.Foldable
 , module Data.Foldable.Unicode
@@ -180,7 +217,6 @@ module Preliminaries
 , module Data.String
 , module Data.Text
 , module Data.Text.Encoding
-, module Data.ByteString
 , module Data.ByteString
 , module Codec.Binary.UTF8.String
 , module Text.Show
@@ -300,7 +336,7 @@ import Control.Error.Util                hiding (isLeft, isRight, bool, tryIO)
 import Control.Monad.Catch
 import Control.Monad.Catch.Pure
 import Control.Exception.Enclosed
-import System.IO.Error                   hiding (catchIOError, tryIO)
+import System.IO.Error                   hiding (catchIOError)
 -- Concurrency and parallelism
 --- Concurrency
 import Control.Concurrent                hiding (forkOS, forkIO, forkIOWithUnmask, forkOn, forkOnWithUnmask)
@@ -412,6 +448,26 @@ import System.Mem
 import System.Mem.StableName
 import System.Mem.Weak
 
+{- $functors
+Computational contexts and mappings over them.
+-}
+
+{- $applicatives
+Effectful computations where steps are independent of each other.
+-}
+
+{- $monads
+Effectful computations where steps may be dependent of previous bindings.
+-}
+
+{- $comonads
+Computations that generate data or layers of further computation.
+-}
+
+{- $categories
+Anything that associates and has an identity.
+-}
+
 -- Helper functions
 
 fromUtf8String ∷ String → ByteString
@@ -446,44 +502,62 @@ centerText       = Text.center
 intersperseText  = Text.intersperse
 intercalateText  = Text.intercalate
 
--- | 'swap' for pairs, as the name is taken by 'concatenative'.
-swapTuple ∷ (α,β) → (β,α)
+-- | Swaps the elements of pairs.
+--
+-- >>> swapTuple (1,0)
+-- (0,1)
+swapTuple ∷ (a,b) → (b,a)
 swapTuple   (x,y) = (y,x)
 
 -- | Reverse function application.
--- 
--- @
--- (▶) ≡ (&)
--- @
+-- Useful when you want users to read “function pipelines” left-to-right instead of the usual right-to-left.
+--
+-- prop> (▶) ≡ (&)
+-- >>> [1,2,3] ▶ headMay ▶ fmap (+10)
+-- Just 11
 infixl 1 ▶
-(▶) ∷ α → (α → β) → β
+(▶) ∷ a → (a → b) → b
 x ▶ f = f x
 
 -- | The trivial identity function.
 --
--- @
--- identity ≡ id
--- @
-identity ∷ α → α
+-- prop> identity ≡ id
+-- >>> identity 1
+-- 1
+identity ∷ a → a
 identity   x = x
 
 -- | A safe 'head' for Vectors.
-headMay ∷ Vector α → Maybe α
+--
+-- >>> headMay [1,2,3]
+-- Just 1
+-- >>> headMay []
+-- Nothing
+headMay ∷ Vector a → Maybe a
 headMay xs = xs Vector.!? 0
 
 -- | A safe 'last' for Vectors.
-lastMay ∷ Vector α → Maybe α
+--
+-- >>> lastMay [1,2,3]
+-- Just 3
+lastMay ∷ Vector a → Maybe a
 lastMay xs | length xs ≥ 1 = Just $ Vector.last xs
            | otherwise     = Nothing
 
 -- | Decompose a Vector into its head and tail. If the Vector is empty,
 -- returns 'Nothing'. If non-empty, returns @'Just' (x,xs)@,
 -- where @x@ is the head of the Vector and @xs@ its tail.
-unconsVector ∷ Vector α → Maybe (α, Vector α)
+--
+-- >>> unconsVector [1,2,3]
+-- Just (1,[2,3])
+unconsVector ∷ Vector a → Maybe (a, Vector a)
 unconsVector xs = bool Nothing (Just (Vector.head xs, Vector.tail xs)) ((length xs) > 0)
 
 -- | Takes a function and a count and applies it n times.
-applyN ∷ Int → (α → α) → α → α
+--
+-- >>> applyN 5 (mappend "a") "b"
+-- "aaaaab"
+applyN ∷ Int → (a → a) → a → a
 applyN n f = foldr (∘) identity (Vector.replicate n f)
 
 whenM ∷ Monad m ⇒ m Bool → m () → m ()
@@ -492,7 +566,7 @@ whenM p m = p >>= flip when m
 unlessM ∷ Monad m ⇒ m Bool → m () → m ()
 unlessM p m = p >>= flip unless m
 
-ifM ∷ Monad m ⇒ m Bool → m α → m α → m α
+ifM ∷ Monad m ⇒ m Bool → m a → m a → m a
 ifM p x y = p >>= \b → bool y x b
 
 guardM ∷ MonadPlus m ⇒ m Bool → m ()
@@ -510,14 +584,14 @@ maybeToRight l = maybe (Left l) Right
 maybeToLeft ∷ r → Maybe l → Either l r
 maybeToLeft r = maybe (Right r) Left
 
-maybeToEither ∷ Monoid β => (α → β) → Maybe α → β
+maybeToEither ∷ Monoid b => (a → b) → Maybe a → b
 maybeToEither = maybe mempty
 
-liftM' ∷ Monad m ⇒ (α → β) → m α → m β
+liftM' ∷ Monad m ⇒ (a → b) → m a → m b
 liftM' = (<$!>)
 {-# INLINE liftM' #-}
 
-liftM2' ∷ (Monad m) ⇒ (α → β → γ) → m α → m β → m γ
+liftM2' ∷ (Monad m) ⇒ (a → b → c) → m a → m b → m c
 liftM2' f a b = do
   x ← a
   y ← b
@@ -527,15 +601,15 @@ liftM2' f a b = do
 
 type FoldableFunctor = RecursionSchemes.Foldable
 
-foldF ∷ (FoldableFunctor τ) ⇒ (Base τ α → α) → τ → α
+foldF ∷ (FoldableFunctor t) ⇒ (Base t a → a) → t → a
 foldF = RecursionSchemes.fold
 
-unfoldF ∷ (Unfoldable τ) ⇒ (α → Base τ α) → α → τ
+unfoldF ∷ (Unfoldable t) ⇒ (a → Base t a) → a → t
 unfoldF = RecursionSchemes.unfold
 
-gunfoldF ∷ (Unfoldable τ, Monad m)
-         ⇒ (∀ β. m (Base τ β) → Base τ (m β))
-         → (α → Base τ (m α))
-         → α
-         → τ
+gunfoldF ∷ (Unfoldable t, Monad m)
+         ⇒ (∀ b. m (Base t b) → Base t (m b))
+         → (a → Base t (m a))
+         → a
+         → t
 gunfoldF = RecursionSchemes.gunfold
