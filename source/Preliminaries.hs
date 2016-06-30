@@ -15,9 +15,9 @@ The Haskell Report specifies the <https://www.haskell.org/onlinereport/standard-
 
 @Preliminaries@ is one of such alternatives, with the following goals in mind:
 
-* Documentation should be first-class.
 * Imports that you use most of the time should be available by default.
 * Useful abstractions are included, even if obscure.
+* Documentation should be first-class.
 
 To use it, put the following on your @.cabal@ file, ignoring the “…” for ommited parts:
 
@@ -32,10 +32,43 @@ In case something does not build or you find other unpleasant aspects of the lib
 
 -}
 module Preliminaries
-( -- * Structural abstractions
+( -- * Basics
+  {- |
+     * 'Eq'ualities between values of a type;
+     * 'Ord'erings;
+     * 'Bool'eans;
+     * 'Default' values.
+  -}
+  module Prelude.Unicode
+, module Data.Eq
+, module Data.Eq.Unicode
+, module Data.Ord
+, module Data.Ord.Unicode
+, module Data.Bool
+, module Data.Bool.Unicode
+-- , module Data.Unique
+-- , module Data.Universe
+-- , module Control.DeepSeq
+-- , module Data.Version
+, module Data.Default.Class
+, module Data.Default.Instances.Base
+  -- ** Functions
+, module Data.Function
+, identity
+, applyN
+  -- * Structural abstractions
+  -- ** Algebraic structures
+  -- | Types with an associative operation ('Semigroup') and optionally identities ('Monoid'), inverses ('Group') or a “zero” element ('Zero').
+, module Data.Semigroup
+, module Data.Monoid.Unicode
+, module Data.Group
+, module Data.Zero
   -- ** Functors
-  -- $functors
-  module Data.Functor
+  -- | Computational contexts and mappings over them.
+, module Data.Functor
+, module Data.Copointed
+, module Data.Bifunctor
+, module Data.Profunctor
 , module Data.Align
 , module Data.Functor.Identity
 , module Data.Functor.Invariant
@@ -47,62 +80,16 @@ module Preliminaries
 , module Data.Functor.Kan.Ran
 , module Data.Functor.Kan.Rift
 , module Data.Functor.Rep
-, module Data.Bifunctor
-, module Data.Profunctor
   -- ** Applicatives
-  -- $applicatives
+  -- | Effectful computations where steps are independent of each other.
 , module Control.Applicative
+, module Data.Pointed
+, module Data.Biapplicative
 , module Control.Applicative.Free
 , module Control.Applicative.Unicode
-, module Data.Biapplicative
 , module Control.Alternative.Free
-  -- ** Monads
-  -- $monads
-, module Control.Monad
-, module Control.Monad.Base
-, module Control.Monad.Free
-, module Control.Monad.Free.Class
-, module Control.Monad.Unicode
-, module Control.Monad.Cont
-, module Control.Monad.Cont.Class
-, module Control.Monad.Except
-, module Control.Monad.Identity
-, module Control.Monad.List
-, module Control.Monad.RWS
-, module Control.Monad.Reader
-, module Control.Monad.State
-, module Control.Monad.Trans
-, module Control.Monad.Writer
-, module Control.Monad.Morph
-, module Control.Monad.Codensity
-, module Control.Monad.Fix
-, module Control.Monad.ST
-, module Control.Monad.Trans.Control
-, whenM
-, unlessM
-, ifM
-, guardM
-, liftM'
-, liftM2'
-  -- ** Comonads
-  -- $comonads
-, module Control.Comonad
-, module Control.Comonad.Cofree
-, module Control.Comonad.Cofree.Class
-, module Control.Comonad.Store
-, module Control.Comonad.Density
-  -- ** Categories
-  -- $categories
-, module Control.Arrow
-, module Control.Arrow.Unicode
-, module Control.Category
-, module Data.Function
-, module Data.Isomorphism
-, Isomorphism
-, identity
-, (▶)
-, applyN
   -- ** Folds
+  -- | Reduction of a type to an aggregate value of a (possibly) different type.
 , module Data.Foldable
 , module Data.Foldable.Unicode
 , module Data.Bifoldable
@@ -112,21 +99,102 @@ module Preliminaries
 , gunfoldF
 , unfoldF
   -- ** Traversals
+  -- | Commuting two functors — e.g.: turning a list of trees into a tree of lists.
+  -- A beefed-up '<$>' applied within an 'Applicative' context.
+, module Data.Traversable
 , module Data.Bitraversable
 , module Data.Distributive
-, module Data.Traversable
   -- ** Lenses
+  -- | A generalisation of 'Getter' and 'Setter' patterns from other languages with the addition of 'Prism's for coproducts. Also features a unified interface to do 'Fold's, 'Traversal's, 'Iso'morphisms and 'Equality'.
+  -- A gigantic library with many operators available by default on scope re-exported here.
+  --
+  -- Start by watching a video intro, reading the lens website and visiting the wiki.
 , module Control.Lens
+  -- ** Monads
+  -- | Effectful computations where steps may be dependent of previous bindings.
+, module Control.Monad
+, module Control.Monad.Unicode
+, module Control.Monad.Fix
+, module Control.Monad.Base
+  -- *** Free
+  -- | “Bare minimum” monads. Useful to prototype interpreters for DSLs.
+, module Control.Monad.Free
+, module Control.Monad.Free.Class
+, module Control.Monad.Codensity
+  -- *** Continuation
+  -- | Allows interrupting and resuming computations.
+, module Control.Monad.Cont
+, module Control.Monad.Cont.Class
+  -- *** Monad transformers
+  -- | Composable management of state, read-only and write-only types.
+, module Control.Monad.Identity
+, module Control.Monad.Reader
+, module Control.Monad.State
+, module Control.Monad.ST
+, module Control.Monad.Writer
+, module Control.Monad.RWS
+, module Control.Monad.List
+, module Control.Monad.Trans
+, module Control.Monad.Morph
+, module Control.Monad.Trans.Control
+  -- *** Helpers
+, whenM
+, unlessM
+, ifM
+, guardM
+, liftM'
+, liftM2'
+  -- ** Comonads
+  -- | Computations that generate data or layers of further computation.
+, module Control.Comonad
+, module Control.Comonad.Cofree
+, module Control.Comonad.Cofree.Class
+, module Control.Comonad.Store
+, module Control.Comonad.Density
+  -- ** Categories
+  -- | Composable types that associate and have an identity.
+, module Data.Semigroupoid 
+, module Data.Groupoid
+, module Control.Category
+  -- ** Arrows
+  -- | A “general interface to computation” useful to structure pipelines of functions and their arguments.
+, module Control.Arrow
+, module Control.Arrow.Unicode
   -- * Error handling
-, module Control.Monad.Catch.Pure
+  {- |
+     Types for values that are:
+
+     * 'Maybe' optional, and 'mappend' only when 'Both' are 'Just';
+     * 'Either' one value of type `a` or type `b`, or also 'These' two at the same time;
+     * computations that end only when 'EitherR' any successes.
+  -}
+, module Data.Maybe
+, module Data.Either
+, module Data.EitherR
+, module Data.Either.Combinators
+, module Data.These
+, module Data.Both
+, leftToMaybe
+, rightToMaybe
+, maybeToRight
+, maybeToLeft
+, maybeToEither
+  -- ** Exceptions
+  -- | Ensuring unsafe code does not spread and crash your application is only guaranteed by dealing with exceptions directly.
 , module Control.Exception.Enclosed
+, module Control.Monad.Catch.Pure
+, module Control.Monad.Except
 , module System.IO.Error
   -- * Concurrency and parallelism
   -- ** Concurrency
+  -- | Decomposing components of execution of a program for use in different orders. Useful to split long lasting computations from others with tighter soft deadlines and other asynchronous scenarios.
+  --
+  -- Includes facilities to share data between these partially-ordered sequences of execution safely with software transactional memory ('Control.Concurrent.STM.STM').
 , module Control.Concurrent
 , module Control.Concurrent.Async
 , module Control.Concurrent.Thread
 , module Control.Concurrent.STM
+, module Control.Monad.STM
 , module Control.Concurrent.STM.TArray
 , module Control.Concurrent.STM.TBQueue
 , module Control.Concurrent.STM.TChan
@@ -139,49 +207,16 @@ module Preliminaries
 , module Control.Concurrent.STM.TBMQueue
 , module Control.Concurrent.STM.TMChan
 , module Control.Concurrent.STM.TMQueue
-, module Control.Monad.STM
   -- ** Parallelism
+  -- | Computations that (can) happen simultaneously and the 'Control.Parallel.Strategies.Strategy' used to express them.
 , module Control.Parallel
 , module Control.Parallel.Strategies
   -- * Data structures
-  -- ** Basics
-, module Data.Default.Class
-, module Data.Default.Instances.Base
-, module Data.Eq
-, module Data.Eq.Unicode
-, module Data.Bool
-, module Data.Bool.Unicode
-, module Data.Pointed
-, module Data.Copointed
-, module Data.Monoid
-, module Data.Monoid.Unicode
-, module Data.Group
-, module Data.Groupoid
-, module Data.Semigroupoid -- , module Data.Semigroup
-, module Data.Zero
-, module Data.Maybe
-, module Data.Either
-, module Data.EitherR
-, module Data.Either.Combinators
-, leftToMaybe
-, rightToMaybe
-, maybeToRight
-, maybeToLeft
-, maybeToEither
-, module Data.These
-, module Data.Both
-, module Data.Unique
-, module Data.Universe
-, module Control.DeepSeq
-, module Data.Version
-, module Prelude.Unicode
   -- ** Numbers
 , module GHC.Enum
 , module GHC.Num
 , module GHC.Real
 , module GHC.Float
-, module Data.Ord
-, module Data.Ord.Unicode
 , module Data.Bits
 , module Data.Complex
 , module Data.Fixed
@@ -284,11 +319,11 @@ import Control.Monad.Cont.Class
 import Control.Monad.Except
 import Control.Monad.Identity
 import Control.Monad.List
-import Control.Monad.RWS
+import Control.Monad.RWS                 hiding ((<>), First, Last, getFirst, getLast)
 import Control.Monad.Reader
 import Control.Monad.State
 import Control.Monad.Trans
-import Control.Monad.Writer
+import Control.Monad.Writer              hiding ((<>), First, Last, getFirst, getLast)
 import Control.Monad.Morph               hiding (embed)
 import Control.Monad.Codensity
 import Control.Monad.Fix
@@ -305,8 +340,6 @@ import Control.Arrow                     hiding (first, second)
 import Control.Arrow.Unicode
 import Control.Category                  hiding ((.))
 import Data.Function                     hiding (id)
-import Data.Isomorphism                  hiding (Iso, embed, project)
-import Data.Isomorphism                  as Isomorphism
 --- Folds
 import Data.Foldable                     hiding (toList)
 import Data.Foldable.Unicode
@@ -369,11 +402,12 @@ import Data.Bool
 import Data.Bool.Unicode
 import Data.Pointed
 import Data.Copointed
-import Data.Monoid
+-- import Data.Monoid
 import Data.Monoid.Unicode
 import Data.Group
 import Data.Groupoid
-import Data.Semigroupoid -- import Data.Semigroup
+import Data.Semigroupoid
+import Data.Semigroup
 import Data.Zero
 import Data.Maybe
 import Data.Either
@@ -433,7 +467,7 @@ import Codec.Binary.UTF8.String          as UTF8
 import qualified Data.Text               as Text
 import Text.Show
 import Data.Text.IO
-import Data.String.Conversions           hiding (ST, SBS, LBS, LT)
+import Data.String.Conversions           hiding (ST, SBS, LBS, LT, (<>))
 -- System interface
 import System.CPUTime
 import System.Environment
@@ -447,26 +481,6 @@ import Data.STRef
 import System.Mem
 import System.Mem.StableName
 import System.Mem.Weak
-
-{- $functors
-Computational contexts and mappings over them.
--}
-
-{- $applicatives
-Effectful computations where steps are independent of each other.
--}
-
-{- $monads
-Effectful computations where steps may be dependent of previous bindings.
--}
-
-{- $comonads
-Computations that generate data or layers of further computation.
--}
-
-{- $categories
-Anything that associates and has an identity.
--}
 
 -- Helper functions
 
@@ -485,8 +499,6 @@ encodeWord8 = UTF8.encode
 decodeWord8 ∷ [Word8] → String
 decodeWord8 = UTF8.decode
 
-type Isomorphism = Isomorphism.Iso
-
 reverseText      ∷ Text → Text
 replaceText      ∷ Text → Text   → Text → Text
 justifyTextLeft  ∷ Int  → Char   → Text → Text
@@ -502,30 +514,20 @@ centerText       = Text.center
 intersperseText  = Text.intersperse
 intercalateText  = Text.intercalate
 
+-- | The trivial identity function. 'id' is used for 'Control.Category.Category' instead.
+--
+-- prop> identity ≡ Prelude.id
+-- >>> identity 1
+-- 1
+identity ∷ a → a
+identity   x = x
+
 -- | Swaps the elements of pairs.
 --
 -- >>> swapTuple (1,0)
 -- (0,1)
 swapTuple ∷ (a,b) → (b,a)
 swapTuple   (x,y) = (y,x)
-
--- | Reverse function application.
--- Useful when you want users to read “function pipelines” left-to-right instead of the usual right-to-left.
---
--- prop> (▶) ≡ (&)
--- >>> [1,2,3] ▶ headMay ▶ fmap (+10)
--- Just 11
-infixl 1 ▶
-(▶) ∷ a → (a → b) → b
-x ▶ f = f x
-
--- | The trivial identity function.
---
--- prop> identity ≡ id
--- >>> identity 1
--- 1
-identity ∷ a → a
-identity   x = x
 
 -- | A safe 'head' for Vectors.
 --
