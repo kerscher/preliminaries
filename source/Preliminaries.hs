@@ -52,6 +52,7 @@ module Preliminaries
 -- , module Data.Version
 , module Data.Default.Class
 , module Data.Default.Instances.Base
+, module GHC.Generics
   -- ** Functions
 , module Data.Function
 , identity
@@ -168,6 +169,7 @@ module Preliminaries
      * 'Either' one value of type `a` or type `b`, or also 'These' two at the same time;
      * computations that end only when 'EitherR' any successes.
   -}
+, module Control.Error.Util
 , module Data.Maybe
 , module Data.Either
 , module Data.EitherR
