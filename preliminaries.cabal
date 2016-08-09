@@ -55,56 +55,14 @@ library
                        -fno-warn-dodgy-exports
                        -Werror
                        -O2
-                       -rtsopts
-                       -with-rtsopts=-N
-                       -with-rtsopts=-T
-  build-depends:       base
-                     , base-unicode-symbols
-                     , adjunctions
-                     , async
+  build-depends:       classy-prelude-conduit
+                     , abstract-par
                      , bifunctors
-                     , bytestring
-                     , both
-                     , comonad
-                     , containers
-                     , containers-unicode-symbols
-                     , contravariant
-                     , data-default-class
-                     , data-default-instances-base
-                     , data-default-instances-containers
-                     , deepseq
-                     , distributive
-                     , enclosed-exceptions
-                     , either
-                     , errors
-                     , exceptions
-                     , free
-                     , groups
-                     , invariant
-                     , kan-extensions
-                     , lens
+                     , microlens-platform
+                     , microlens-contra
+                     , monad-par
+                     , monad-parallel
+                     , mono-traversable-instances
                      , parallel
-                     , pointed
-                     , profunctors
-                     , monad-control
-                     , mmorph
                      , mtl
-                     , reflection
-                     , recursion-schemes
-                     , semigroupoids
-                     , semigroups
-                     , stm
-                     , stm-chans
-                     , string-conversions
-                     , threads
-                     , universe
-                     , vector
-                     , vector-instances
-                     , tagged
-                     , text
-                     , these
-                     , transformers-base
-                     , time
-                     , unordered-containers
-                     , utf8-string
-                     , zero
+                     , stm-conduit
