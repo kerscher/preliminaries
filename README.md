@@ -2,6 +2,7 @@ Preliminaries
 =============
 
 [![Build Status](https://travis-ci.org/kerscher/preliminaries.svg?branch=master)](https://travis-ci.org/kerscher/preliminaries)
+![BSD3 license](https://img.shields.io/badge/license-BSD3-blue.svg)
 
 The Haskell Report specifies the [Prelude](https://www.haskell.org/onlinereport/standard-prelude.html) with a minimal amount of definitions that are always available in scope for application writers. Due to its simplicity and frugality, multiple alternatives and support libraries were devised to improve upon it, including:
 
