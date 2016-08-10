@@ -12,15 +12,16 @@ The Haskell Report specifies the [Prelude](https://www.haskell.org/onlinereport/
 * [`prelude-extras`](https://github.com/ekmett/prelude-extras)
 * [`protolude`](https://github.com/sdiehl/protolude)
 
-`preliminaries` is one of such alternatives and builds upon [classy-prelude-conduit](https://github.com/snoyberg/mono-traversable/tree/master/classy-prelude-conduit), with the following functionality out-of-the-box:
+`preliminaries` is one of such alternatives and builds upon [`classy-prelude-conduit`](https://github.com/snoyberg/mono-traversable/tree/master/classy-prelude-conduit), with the following functionality out-of-the-box:
 
-* Data manipulation and structures — i.e. [`microlens`](https://github.com/aelve/microlens) + `mono-traversable`
+* Data manipulation and structures — i.e. [`microlens`](https://github.com/aelve/microlens) + [`mono-traversable`](https://github.com/snoyberg/mono-traversable)
 * Streaming
 * Concurrency
 * Parallelism
 * Read-only, write-only and read-write environments — i.e. [`mtl`](https://github.com/ekmett/mtl)
 
-Contrary to most other alternatives, there is no attempt at being minimal. Nevertheless, it's shipped with `microlens` instead of the full-blown `lens`, as most users should be fine with just that. 
+Contrary to most other alternatives, there is no attempt at being minimal.
+Nevertheless, it's shipped with `microlens` instead of the full-blown `lens`.
 
 Usage
 -----
