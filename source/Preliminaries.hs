@@ -7,19 +7,19 @@ Stability   : experimental
 
 The Haskell Report specifies the <https://www.haskell.org/onlinereport/standard-prelude.html Prelude> with a minimal amount of definitions that are always available in scope for application writers. Due to its simplicity and frugality, multiple alternatives and support libraries were devised to improve upon it, including:
 
-* <https://hackage.haskell.org/package/classy-prelude-0.12.8 classy-prelude>
-* <https://hackage.haskell.org/package/base-prelude-1.0.1.1 base-prelude>
-* <https://hackage.haskell.org/package/basic-prelude-0.5.2 basic-prelude>
-* <https://hackage.haskell.org/package/prelude-extras-0.4.0.3 prelude-extras>
-* <https://hackage.haskell.org/package/protolude-0.1.5 protolude>
+* <https://github.com/snoyberg/mono-traversable/tree/master/classy-prelude classy-prelude>
+* <https://github.com/nikita-volkov/base-prelude base-prelude>
+* <https://github.com/snoyberg/basic-prelude basic-prelude>
+* <https://github.com/ekmett/prelude-extras prelude-extras>
+* <https://github.com/sdiehl/protolude protolude>
 
 @Preliminaries@ is one of such alternatives and builds upon <https://hackage.haskell.org/package/classy-prelude-0.12.8 classy-prelude>, with the following functionality out-of-the-box:
 
-* Data manipulation — i.e. lenses
+* Data manipulation — i.e. <https://github.com/aelve/microlens microlens>
 * Streaming
 * Concurrency
 * Parallelism
-* Read-only, write-only and read-write environments — i.e. monad transformers
+* Read-only, write-only and read-write environments — i.e. <https://github.com/ekmett/mtl mtl>
 
 To use it, put the following on your @.cabal@ file, ignoring the “…” for ommited parts:
 
