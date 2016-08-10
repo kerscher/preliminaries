@@ -15,29 +15,28 @@ The Haskell Report specifies the <https://www.haskell.org/onlinereport/standard-
 
 @Preliminaries@ is one of such alternatives and builds upon <https://hackage.haskell.org/package/classy-prelude-0.12.8 classy-prelude>, with the following functionality out-of-the-box:
 
-* Record accessors
+* Data manipulation — i.e. lenses
 * Streaming
 * Concurrency
 * Parallelism
-* Read-only, write-only and read-write environments
+* Read-only, write-only and read-write environments — i.e. monad transformers
 
 To use it, put the following on your @.cabal@ file, ignoring the “…” for ommited parts:
 
 @
 …
 default-extensions: NoImplicitPrelude
-build-depends:      preliminaries
+build-depends:      preliminaries >= 0.1.0 < 2
 @
 
-And on each file add @import Preliminaries@.
+And on each file, add @import Preliminaries@.
 
 You might also want to look at this project’s Cabal file to check on useful GHC extensions to enable alongside this change.
-
 In case something does not build or you find other unpleasant aspects of the library, please contact the maintainer.
 
 -}
 module Preliminaries
-( -- * Record accessors
+( -- * Data manipulation
   module Lens.Micro.Platform
 , module Lens.Micro.Contra
   -- * Concurrency
@@ -92,7 +91,7 @@ import Data.Bifoldable           (Bifoldable, bifoldr, bifold, bifoldMap, bitrav
 import Data.Bitraversable        (Bitraversable, bitraverse, bisequenceA, bifor)
 import Data.Conduit.Async
 import Data.Conduit.TQueue
-import Data.MonoTraversable.Instances
+import Data.MonoTraversable.Instances ()
 import Lens.Micro.Platform
 import Lens.Micro.Contra
 
