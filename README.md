@@ -11,7 +11,7 @@ The Haskell Report specifies the [Prelude](https://www.haskell.org/onlinereport/
 * [prelude-extras](https://github.com/ekmett/prelude-extras)
 * [protolude](https://github.com/sdiehl/protolude)
 
-@Preliminaries@ is one of such alternatives and builds upon [classy-prelude-conduit](https://github.com/snoyberg/mono-traversable/tree/master/classy-prelude-conduit), with the following functionality out-of-the-box:
+`preliminaries` is one of such alternatives and builds upon [classy-prelude-conduit](https://github.com/snoyberg/mono-traversable/tree/master/classy-prelude-conduit), with the following functionality out-of-the-box:
 
 * Data manipulation and structures — i.e. `microlens` + `mono-traversable`
 * Streaming
@@ -24,7 +24,7 @@ Contrary to most other alternatives, there is no attempt at being minimal. Never
 Usage
 -----
 
-To use it, put the following on your @.cabal@ file, ignoring the “…” for ommited parts:
+To use it, put the following on your `.cabal` file, ignoring the “…” for ommited parts:
 
 ```
 executable your-executable
