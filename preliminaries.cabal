@@ -50,7 +50,6 @@ library
                      , ConstraintKinds
   exposed-modules:     Preliminaries
   ghc-options:         -Wall
-                       -Werror
                        -fno-warn-unused-imports
                        -fno-warn-dodgy-exports
                        -O2
