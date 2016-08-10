@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 {-|
 Module      : Preliminaries
 Copyright   : © Yghor Kerscher, 2016
