@@ -1,3 +1,4 @@
+{-# LANGUAGE ExplicitNamespaces #-}
 {-|
 Module      : Preliminaries
 Copyright   : © Yghor Kerscher, 2016
@@ -26,7 +27,7 @@ To use it, put the following on your @.cabal@ file, ignoring the “…” for o
 @
 …
 default-extensions: NoImplicitPrelude
-build-depends:      preliminaries >= 0.1.0 < 2
+build-depends:      preliminaries >= 0.1.1 < 2
 @
 
 And on each file, add @import Preliminaries@.
@@ -65,6 +66,8 @@ module Preliminaries
 , module Data.Bifoldable
 , module Data.Bitraversable
 , module Data.MonoTraversable.Instances
+  -- * Utilities
+, type ($)
 )
 where
 
@@ -118,3 +121,5 @@ parParMap = Par.parMap
 
 thru :: a -> Strategy a -> a
 x `thru` strat = x `Strategies.using` strat
+
+type f $ x = f x
