@@ -26,7 +26,7 @@ To use it, put the following on your @.cabal@ file, ignoring the “…” for o
 @
 …
 default-extensions: NoImplicitPrelude
-build-depends:      preliminaries >= 0.1.1 < 2
+build-depends:      preliminaries >= 0.1.2 < 2
 @
 
 And on each file, add @import Preliminaries@.
