@@ -65,7 +65,7 @@ module Preliminaries
 , module Data.Bifoldable
 , module Data.Bitraversable
 , module Data.MonoTraversable.Instances
-, module Data.Default.Class
+, module Data.Default
   -- * Utilities
 , type ($)
 )
@@ -94,7 +94,7 @@ import Data.Bifoldable           (Bifoldable, bifoldr, bifold, bifoldMap, bitrav
 import Data.Bitraversable        (Bitraversable, bitraverse, bisequenceA, bifor)
 import Data.Conduit.Async
 import Data.Conduit.TQueue
-import Data.Default.Class
+import Data.Default
 import Data.MonoTraversable.Instances ()
 import Lens.Micro.Platform
 import Lens.Micro.Contra
