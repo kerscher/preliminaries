@@ -27,13 +27,13 @@ Nevertheless, it's shipped with `microlens` instead of the full-blown `lens`.
 Usage
 -----
 
-To use it, put the following on your `.cabal` file, ignoring the “…” for ommited parts:
+To use it, put the following in your `.cabal` file, ignoring the “…” for omited parts:
 
 ```
 executable your-executable
   language:           Haskell2010
   default-extensions: NoImplicitPrelude
-  build-depends:      preliminaries >= 0.1.3 < 2
+  build-depends:      preliminaries >= 0.1.4 < 1
   …
 ```
 

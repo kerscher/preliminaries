@@ -21,12 +21,12 @@ The Haskell Report specifies the <https://www.haskell.org/onlinereport/standard-
 * Parallelism
 * Read-only, write-only and read-write environments — i.e. <https://github.com/ekmett/mtl mtl>
 
-To use it, put the following on your @.cabal@ file, ignoring the “…” for ommited parts:
+To use it, put the following in your @.cabal@ file, ignoring the “…” for omited parts:
 
 @
 …
 default-extensions: NoImplicitPrelude
-build-depends:      preliminaries >= 0.1.3 < 2
+build-depends:      preliminaries >= 0.1.4 < 1
 @
 
 And on each file, add @import Preliminaries@.
@@ -37,12 +37,27 @@ In case something does not build or you find other unpleasant aspects of the lib
 -}
 module Preliminaries
 ( -- * Data manipulation
+  {- |
+Lenses provide unified and first-class means to access and modify data structures. 'Lens.Micro.Platform', included here, provides a lightweight alternative to the much larger 'Control.Lens' module, while remaining for the most part compatible.
+
+Use <http://hackage.haskell.org/package/lens-tutorial-1.0.1/docs/Control-Lens-Tutorial.html this tutorial> as an introduction, minding the slightly different module names.
+  -}
   module Lens.Micro.Platform
 , module Lens.Micro.Contra
   -- * Concurrency
+  {- |
+Structure programs so that different threads are controlled independently. Whenever you need to have distinct functionality happening “at the same time”, you probably want to use the functionality here. The core 'Async' functionality is provided by 'ClassyPrelude'. Modules below provide helpers to execute things asynchronously in streaming 'Conduit's and a transactional queue to transfer data between threads.
+  -}
 , module Data.Conduit.Async
 , module Data.Conduit.TQueue
   -- * Parallelism
+  {- |
+Using multiple available resource in a device to compute a result is what parallelism is about. Whenever you want to chop your data so that many cores calculate parts of it and bring about a result, you want what the imports here.
+
+'Control.Monad.Par' provides fine-grained control, while 'Control.Monad.Parallel' provides a simple interface to create 'Control.Parallel.Strategies' to parallelise execution. In general it's easier to start with 'Parallel' and switch to 'Par' when more control is needed.
+
+Since the names used by both modules are similar, this module prefix `par` to all 'Control.Monad.Par' functions that would conflict with 'Control.Parallel'.
+  -}
 , module Control.Monad.Par
 , parFork
 , parNew
@@ -56,6 +71,13 @@ module Preliminaries
 , module Control.Parallel.Strategies
 , thru
   -- * Environments
+  {- |
+If your programs end up repeatedly passing parameters around for configuration, state or logging, you will benefit from the monads below.
+
+- 'Control.Reader' provides a read-only environment, useful to ensure configuration invariants are kept.
+- 'Control.State' helps deal with scenarios where a variable is passed around many functions to “update” its state.
+- 'Control.Writer' provides a write-only environment, useful for logging and auditing purposes.
+  -}
 , module Control.Monad.Reader
 , module Control.Monad.State.Lazy
 , module Control.Monad.Writer.Lazy
@@ -66,6 +88,7 @@ module Preliminaries
 , module Data.Bitraversable
 , module Data.MonoTraversable.Instances
 , module Data.Default
+, module Data.String.Conversions
   -- * Utilities
 , type ($)
 )
@@ -96,6 +119,7 @@ import Data.Conduit.Async
 import Data.Conduit.TQueue
 import Data.Default
 import Data.MonoTraversable.Instances ()
+import Data.String.Conversions   (ConvertibleStrings, cs)
 import Lens.Micro.Platform
 import Lens.Micro.Contra
 
