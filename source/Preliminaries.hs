@@ -26,7 +26,7 @@ To use it, put the following in your @.cabal@ file, ignoring the “…” for o
 @
 …
 default-extensions: NoImplicitPrelude
-build-depends:      preliminaries >= 0.1.4 < 1
+build-depends:      preliminaries >= 0.1.5 < 1
 @
 
 And on each file, add @import Preliminaries@.
@@ -56,7 +56,7 @@ Using multiple available resource in a device to compute a result is what parall
 
 'Control.Monad.Par' provides fine-grained control, while 'Control.Monad.Parallel' provides a simple interface to create 'Control.Parallel.Strategies' to parallelise execution. In general it's easier to start with 'Parallel' and switch to 'Par' when more control is needed.
 
-Since the names used by both modules are similar, this module prefix `par` to all 'Control.Monad.Par' functions that would conflict with 'Control.Parallel'.
+Since the names used by both modules are similar, this module prefixes `par` to all 'Control.Monad.Par' functions that would conflict with 'Control.Parallel'.
   -}
 , module Control.Monad.Par
 , parFork
@@ -81,6 +81,15 @@ If your programs end up repeatedly passing parameters around for configuration, 
 , module Control.Monad.Reader
 , module Control.Monad.State.Lazy
 , module Control.Monad.Writer.Lazy
+  -- * System interface
+  {- |
+Terminate your programs with 'exitFailure' or 'exitSuccess'.
+
+You should ensure any scarce resources that outlive program termination are freed with appropriate 'Control.Exception.Safe' functions such as 'onException', 'bracket', 'bracket_', 'finally', 'withException', 'bracketOnError' or 'bracketOnError_'.
+  -}
+, module System.Environment
+, getEnvironmentMap
+, module System.Exit
   -- * Re-exports
 , module ClassyPrelude.Conduit
 , module Data.Biapplicative
@@ -122,6 +131,9 @@ import Data.MonoTraversable.Instances ()
 import Data.String.Conversions   (ConvertibleStrings, cs)
 import Lens.Micro.Platform
 import Lens.Micro.Contra
+import qualified System.Environment as SE
+import System.Environment        (getEnv, lookupEnv, setEnv, unsetEnv)
+import System.Exit               (exitFailure, exitSuccess, die)
 
 parFork :: Par () -> Par ()
 parFork = Par.fork
@@ -144,7 +156,18 @@ parSpawn = Par.spawn
 parParMap :: (Traversable t, NFData b, ParFuture iv p) => (a -> b) -> t a -> p (t b)
 parParMap = Par.parMap
 
+-- | A synonym for 'Strategies.using'.
 thru :: a -> Strategy a -> a
 x `thru` strat = x `Strategies.using` strat
 
+-- | Retrieves the current list of environment variables as a 'Map' of keys for variable names and values for current assignment of each variable.
+--
+-- This is a single action. If you need to keep this structure in sync with the system environment, it's your responsibility to call it again. Consider either calling a specific variable with 'getEnv' when you need it, or keep this structure in a 'TVar' and refresh it manually.
+getEnvironmentMap :: IO (Map String String)
+getEnvironmentMap = SE.getEnvironment >>= pure . mapFromList
+
+-- | This allows you to avoid parentheses in type declarations:
+--
+-- > f :: h (g (f a b)) -> g (h (f a b))
+-- > f :: h $ g $ f a b -> g $ h $ f a b
 type f $ x = f x

@@ -1,5 +1,5 @@
 name:                preliminaries
-version:             0.1.4.0
+version:             0.1.5.0
 synopsis:            A larger alternative to the Prelude.
 description:         A GHC-only alternative to the Prelude with a large amount of imports available by default.
 homepage:            http://github.com/kerscher/preliminaries
@@ -63,6 +63,7 @@ library
                        -fno-warn-dodgy-exports
   build-depends:       classy-prelude-conduit     >= 1.0.0 && < 2
                      , abstract-par               >= 0.3.3 && < 1
+                     , base                       >= 4.9.0 && < 5
                      , bifunctors                 >= 5.4.1 && < 6
                      , data-default               >= 0.7.1 && < 1
                      , microlens-platform         >= 0.3.7 && < 1
