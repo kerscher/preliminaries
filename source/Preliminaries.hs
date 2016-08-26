@@ -52,7 +52,7 @@ Structure programs so that different threads are controlled independently. Whene
 , module Data.Conduit.TQueue
   -- * Parallelism
   {- |
-Using multiple available resource in a device to compute a result is what parallelism is about. Whenever you want to chop your data so that many cores calculate parts of it and bring about a result, you want what the imports here.
+Using multiple available resources in a device to compute a result is what parallelism is about. Whenever you want to chop your data so that many cores calculate parts of it and bring about a result, you want what the imports here.
 
 'Control.Monad.Par' provides fine-grained control, while 'Control.Monad.Parallel' provides a simple interface to create 'Control.Parallel.Strategies' to parallelise execution. In general it's easier to start with 'Parallel' and switch to 'Par' when more control is needed.
 
@@ -133,7 +133,7 @@ import Lens.Micro.Platform
 import Lens.Micro.Contra
 import qualified System.Environment as SE
 import System.Environment        (getEnv, lookupEnv, setEnv, unsetEnv)
-import System.Exit               (exitFailure, exitSuccess, die)
+import System.Exit               (exitFailure, exitSuccess)
 
 parFork :: Par () -> Par ()
 parFork = Par.fork
@@ -162,7 +162,7 @@ x `thru` strat = x `Strategies.using` strat
 
 -- | Retrieves the current list of environment variables as a 'Map' of keys for variable names and values for current assignment of each variable.
 --
--- This is a single action. If you need to keep this structure in sync with the system environment, it's your responsibility to call it again. Consider either calling a specific variable with 'getEnv' when you need it, or keep this structure in a 'TVar' and refresh it manually.
+-- This is a single action. If you need to keep this structure in sync with system environment, it's your responsibility to call it again. Consider either calling a specific variable with 'getEnv' when you need it, or keep this structure in a 'TVar' and refresh it manually.
 getEnvironmentMap :: IO (Map String String)
 getEnvironmentMap = SE.getEnvironment >>= pure . mapFromList
 
