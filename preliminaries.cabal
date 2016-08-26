@@ -59,7 +59,6 @@ library
                      , ExplicitNamespaces
   exposed-modules:     Preliminaries
   ghc-options:         -Wall
-                       -Werror
   build-depends:       classy-prelude-conduit     >= 1.0.0 && < 2
                      , abstract-par               >= 0.3.3 && < 1
                      , base                       >= 4.9.0 && < 5
