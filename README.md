@@ -33,7 +33,7 @@ To use it, put the following in your `.cabal` file, ignoring the “…” for o
 executable your-executable
   language:           Haskell2010
   default-extensions: NoImplicitPrelude
-  build-depends:      preliminaries >= 0.1.5 < 1
+  build-depends:      preliminaries >= 0.1.6 < 1
   …
 ```
 

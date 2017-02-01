@@ -26,7 +26,7 @@ To use it, put the following in your @.cabal@ file, ignoring the “…” for o
 @
 …
 default-extensions: NoImplicitPrelude
-build-depends:      preliminaries >= 0.1.5 < 1
+build-depends:      preliminaries >= 0.1.6 < 1
 @
 
 And on each file, add @import Preliminaries@.
@@ -117,7 +117,6 @@ import Control.Parallel.Strategies
   , rseq, rdeepseq
   , rpar, rparWith
   , evalTraversable, parTraversable, parMap
-  , ($|), ($||), (.|), (.||), (-|), (-||)
   , Eval, runEval
   )
 import ClassyPrelude.Conduit

@@ -1,5 +1,5 @@
 name:                preliminaries
-version:             0.1.5.0
+version:             0.1.6.0
 synopsis:            A larger alternative to the Prelude.
 description:         A GHC-only alternative to the Prelude with a large amount of imports available by default.
 homepage:            http://github.com/kerscher/preliminaries
