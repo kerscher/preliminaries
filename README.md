@@ -49,4 +49,4 @@ In case something does not build or you find other unpleasant aspects of the lib
 Licence
 -------
 
-This package uses a 2-clause BSD-like licence. You can check it [here](LICENCE.md).
+This package uses a 2-clause BSD-like licence. You can check it [here](LICENCE).
