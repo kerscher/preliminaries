@@ -3,7 +3,7 @@ Preliminaries
 
 [![Build Status](https://travis-ci.org/kerscher/preliminaries.svg?branch=master)](https://travis-ci.org/kerscher/preliminaries)
 [![Hackage](https://img.shields.io/hackage/v/preliminaries.svg)](https://hackage.haskell.org/package/preliminaries)
-![BSD3 license](https://img.shields.io/badge/licence-BSD%202--clause-blue.svg)
+![BSD3 license](https://img.shields.io/badge/licence-BSD%203--clause-blue.svg)
 
 The Haskell Report specifies the [Prelude](https://www.haskell.org/onlinereport/standard-prelude.html) with a minimal amount of definitions that are always available in scope for application writers. Due to its simplicity and frugality, multiple alternatives and support libraries were devised to improve upon it, including:
 
@@ -49,4 +49,4 @@ In case something does not build or you find other unpleasant aspects of the lib
 Licence
 -------
 
-This package uses a 2-clause BSD-like licence. You can check it [here](LICENCE).
+This package uses a 3-clause BSD-like licence. You can check it [here](LICENCE).
